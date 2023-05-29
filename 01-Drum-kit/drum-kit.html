@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paino</title>
+  </head>
+  <body>
+    <div class="keys">
+      <div data-key="65" class="key">
+        <kbd>A</kbd>
+        <span class="sound">clap</span>
+      </div>
+      <div data-key="83" class="key">
+        <kbd>S</kbd>
+        <span class="sound">hithat</span>
+      </div>
+      <div data-key="68" class="key">
+        <kbd>D</kbd>
+        <span class="sound">kick</span>
+      </div>
+      <div data-key="70" class="key">
+        <kbd>F</kbd>
+        <span class="sound">openhat</span>
+      </div>
+      <div data-key="71" class="key">
+        <kbd>G</kbd>
+        <span class="sound">boom</span>
+      </div>
+      <div data-key="72" class="key">
+        <kbd>H</kbd>
+        <span class="sound">ride</span>
+      </div>
+      <div data-key="74" class="key">
+        <kbd>J</kbd>
+        <span class="sound">snare</span>
+      </div>
+      <div data-key="75" class="key">
+        <kbd>K</kbd>
+        <span class="sound">tom</span>
+      </div>
+      <div data-key="76" class="key">
+        <kbd>L</kbd>
+        <span class="sound">tink</span>
+      </div>
+    </div>
+    <audio data-key="65" src="sound/clap.wav"></audio>
+    <audio data-key="83" src="sound/hihat.wav"></audio>
+    <audio data-key="68" src="sound/kick.wav"></audio>
+    <audio data-key="70" src="sound/openhat.wav"></audio>
+    <audio data-key="71" src="sound/boom.wav"></audio>
+    <audio data-key="72" src="sound/ride.wav"></audio>
+    <audio data-key="74" src="sound/snare.wav"></audio>
+    <audio data-key="75" src="sound/tom.wav"></audio>
+    <audio data-key="76" src="sound/tink.wav"></audio>
+  </body>
+
+  <script>
+    console.log("script is running");
+    const playSound = (e) => {
+      const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+      const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+      if (!audio) return;
+      audio.currentTime = 0;
+      audio.play();
+      key.classList.add("playing");
+    };
+
+    const removeTransition = (e) => {
+      if (e.propertyName !== "transform") return;
+      e.target.classList.remove("playing");
+    };
+
+    const keys = document.querySelectorAll(".key");
+    keys.forEach((key) =>
+      key.addEventListener("transitionend", removeTransition)
+    );
+    window.addEventListener("keydown", playSound);
+  </script>
+
+  <style>
+    html {
+      font-size: 10px;
+      background: url("./assets//bg.jpg") bottom center;
+      background-size: cover;
+    }
+
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+    }
+
+    .keys {
+      display: flex;
+      flex: 1;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .key {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      border: 0.4rem solid black;
+      border-radius: 0.5rem;
+      margin: 1rem;
+      font-size: 3rem;
+      padding: 1rem 0.5rem;
+      transition: all 0.07s ease;
+      width: 10rem;
+      text-align: center;
+      color: rgb(253, 186, 2);
+      background: rgba(0, 0, 0, 0.4);
+      text-shadow: 0 0 0.5rem black;
+    }
+
+    .playing {
+      transform: scale(1.1);
+      border-color: #d346ef;
+      box-shadow: 0 0 1rem #f40ef4;
+    }
+    
+    background kbd {
+      display: block;
+      font-size: 4rem;
+    }
+
+    .sound {
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1rem;
+      color: #e736fb;
+    }
+  </style>
+</html>
